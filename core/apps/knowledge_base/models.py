@@ -1,9 +1,39 @@
 from django.db import models
 
 
+class Section(models.Model):
+    title = models.CharField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = 'Section'
+        verbose_name_plural = 'Sections'
+        db_table = 'sections'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+
+class Source(models.Model):
+    title = models.CharField(max_length=100)
+    short_title = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name = 'Source'
+        verbose_name_plural = 'Sources'
+        db_table = 'sources'
+        ordering = ['title']
+
+    def __str__(self):
+        return self.short_title
+
+
 class Characteristic(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='characteristics')
+    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='characteristics')
 
     class Meta:
         verbose_name = 'Characteristic'
@@ -19,6 +49,8 @@ class Skill(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     characteristic = models.ForeignKey(Characteristic, on_delete=models.CASCADE, related_name='skills')
+    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='skills')
+    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='skills')
 
     class Meta:
         verbose_name = 'Skill'
@@ -31,7 +63,6 @@ class Skill(models.Model):
 
 
 class Language(models.Model):
-
     LANGUAGE_TYPES = (
         ('ethnic', 'Этнические языки'),
         ('exotic', 'Экзотические языки'),
@@ -54,6 +85,8 @@ class Language(models.Model):
     type = models.CharField(max_length=50, choices=LANGUAGE_TYPES, null=True)
     script = models.CharField(max_length=50, choices=SCRIPT_TYPES, null=True)
     description = models.TextField(blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='languages')
+    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='languages')
 
     class Meta:
         verbose_name = 'Language'

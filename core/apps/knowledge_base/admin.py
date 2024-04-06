@@ -2,12 +2,26 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import Characteristic, Skill, Language
+from .models import Characteristic, Skill, Language, Section, Source
+
+
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug')
+    list_display_links = ('title',)
+    ordering = ('title',)
+
+
+@admin.register(Source)
+class SourceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'short_title')
+    list_display_links = ('title',)
+    ordering = ('title',)
 
 
 @admin.register(Characteristic)
 class CharacteristicAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'display_skills')
+    list_display = ('title', 'description', 'display_skills', 'section', 'source')
     list_display_links = ('title',)
     ordering = ('pk',)
 
@@ -26,7 +40,7 @@ class CharacteristicAdmin(admin.ModelAdmin):
 
 @admin.register(Skill)
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'characteristic')
+    list_display = ('title', 'description', 'characteristic', 'section', 'source')
     list_display_links = ('title',)
     ordering = ('title',)
     search_fields = ('title', 'characteristic__title', 'description')
@@ -35,6 +49,7 @@ class SkillAdmin(admin.ModelAdmin):
 
 @admin.register(Language)
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'type', 'speakers', 'script', 'description')
+    list_display = ('title', 'type', 'speakers', 'script', 'description', 'section', 'source')
     list_display_links = ('title',)
+    list_filter = ('type',)
     ordering = ('title',)
