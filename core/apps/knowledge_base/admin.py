@@ -11,6 +11,9 @@ class CharacteristicAdmin(admin.ModelAdmin):
     list_display_links = ('title',)
     ordering = ('pk',)
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('skills')
+
     @admin.display(description='Skills')
     def display_skills(self, obj: Characteristic):
         skill_links = []
