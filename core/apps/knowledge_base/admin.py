@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import Characteristic, Skill
+from .models import Characteristic, Skill, Language
 
 
 @admin.register(Characteristic)
@@ -31,3 +31,10 @@ class SkillAdmin(admin.ModelAdmin):
     ordering = ('title',)
     search_fields = ('title', 'characteristic__title', 'description')
     list_filter = ('characteristic',)
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'type', 'speakers', 'script', 'description')
+    list_display_links = ('title',)
+    ordering = ('title',)
