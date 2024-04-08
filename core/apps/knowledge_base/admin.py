@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import Characteristic, Skill, Language, Section, Source, Die, Coin
+from .models import Characteristic, Skill, Language, Section, Source, Die, Coin, Alignment
 
 
 @admin.register(Section)
@@ -64,3 +64,7 @@ class DieAdmin(admin.ModelAdmin):
 class CoinAdmin(admin.ModelAdmin):
     list_display = ('title', 'short_title', 'rate', 'section', 'source')
 
+
+@admin.register(Alignment)
+class AlignmentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'section', 'source')

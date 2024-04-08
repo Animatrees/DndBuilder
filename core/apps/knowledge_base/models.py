@@ -130,3 +130,19 @@ class Coin(models.Model):
     def __str__(self):
         return self.title
 
+
+class Alignment(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='alignments')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='alignments')
+
+    class Meta:
+        verbose_name = 'Alignment'
+        verbose_name_plural = 'Alignments'
+        db_table = 'alignments'
+        ordering = ['pk']
+
+    def __str__(self):
+        return self.title
+
