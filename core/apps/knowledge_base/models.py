@@ -96,3 +96,37 @@ class Language(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Die(models.Model):
+    title = models.CharField(max_length=10)
+    modifier = models.SmallIntegerField()
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='dice')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='dice')
+
+    class Meta:
+        verbose_name = 'Die'
+        verbose_name_plural = 'Dice'
+        db_table = 'dice'
+        ordering = ['modifier']
+
+    def __str__(self):
+        return self.title
+
+
+class Coin(models.Model):
+    title = models.CharField(max_length=20)
+    short_title = models.CharField(max_length=5)
+    rate = models.DecimalField(max_digits=4, decimal_places=1)
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='coins')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='coins')
+
+    class Meta:
+        verbose_name = 'Coin'
+        verbose_name_plural = 'Coins'
+        db_table = 'coins'
+        ordering = ['rate']
+
+    def __str__(self):
+        return self.title
+
