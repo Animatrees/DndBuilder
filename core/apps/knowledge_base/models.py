@@ -32,8 +32,8 @@ class Source(models.Model):
 class Characteristic(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='characteristics')
-    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='characteristics')
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='characteristics')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='characteristics')
 
     class Meta:
         verbose_name = 'Characteristic'
@@ -48,9 +48,9 @@ class Characteristic(models.Model):
 class Skill(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    characteristic = models.ForeignKey(Characteristic, on_delete=models.CASCADE, related_name='skills')
-    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='skills')
-    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='skills')
+    characteristic = models.ForeignKey(Characteristic, on_delete=models.PROTECT, related_name='skills')
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='skills')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='skills')
 
     class Meta:
         verbose_name = 'Skill'
@@ -85,8 +85,8 @@ class Language(models.Model):
     type = models.CharField(max_length=50, choices=LANGUAGE_TYPES, null=True)
     script = models.CharField(max_length=50, choices=SCRIPT_TYPES, null=True)
     description = models.TextField(blank=True, null=True)
-    section = models.ForeignKey(Section, on_delete=models.DO_NOTHING, related_name='languages')
-    source = models.ForeignKey(Source, on_delete=models.DO_NOTHING, related_name='languages')
+    section = models.ForeignKey(Section, on_delete=models.PROTECT, related_name='languages')
+    source = models.ForeignKey(Source, on_delete=models.PROTECT, related_name='languages')
 
     class Meta:
         verbose_name = 'Language'
